@@ -7,6 +7,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.swimmingtuna.lotm.LOTM;
+import net.swimmingtuna.lotm.networking.packet.SpiritualityC2S;
 
 public class ModMessages {
     private static SimpleChannel INSTANCE;
@@ -25,6 +26,12 @@ public class ModMessages {
                 .simpleChannel();
 
         INSTANCE = net;
+
+        net.messageBuilder(SpiritualityC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(SpiritualityC2S::new)
+                .encoder(SpiritualityC2S::toBytes)
+                .consumerMainThread(SpiritualityC2S::handle)
+                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {

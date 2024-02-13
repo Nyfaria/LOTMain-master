@@ -51,5 +51,8 @@
   "effects.lotm.advancement1": "Advancement 1",
   "effects.lotm.advancement0": "Advancement 0",
 
-  "attribute.lotm.spirituality": "Spirituality"
+  "attribute.lotm.spirituality": "Spirituality",
+  "attribute.lotm.max_spirituality": "Max Spirituality",
+  "attribute.lotm.spirituality_regen": "Spirituality Regen",
+  "attribute.lotm.soul_body": "Soul Body"
 }

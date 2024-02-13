@@ -6,7 +6,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,7 +25,7 @@ public class BeyonderResetPotion extends Item{
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level,Player pPlayer,InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player pPlayer, InteractionHand hand) {
         ItemStack itemStack = pPlayer.getItemInHand(hand);
         if (!level.isClientSide()) {
             pPlayer.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence ->  {
@@ -33,5 +35,6 @@ public class BeyonderResetPotion extends Item{
             pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0);
             if (!pPlayer.getAbilities().instabuild) {
                 itemStack.shrink(1);
+                pPlayer.hurt(pPlayer.damageSources().magic(), 1.0f);
             }}
         return super.use(level,pPlayer,hand);}}

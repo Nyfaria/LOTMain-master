@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,16 +26,16 @@ public class Spectator0Potion extends Item{
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level,Player pPlayer,InteractionHand hand) {
-        var effect = new MobEffectInstance(ModEffects.ADVANCEMENT1.get(),1,1);
+        var effect = new MobEffectInstance(ModEffects.ADVANCEMENT0.get(),1,1);
         effect.setCurativeItems(List.of());
         ItemStack itemStack = pPlayer.getItemInHand(hand);
         pPlayer.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence ->  {
-            if (spectatorSequence.getSpectatorSequence() == 8 && !level.isClientSide()){
+            if (spectatorSequence.getSpectatorSequence() == 9 && !level.isClientSide()){
                 spectatorSequence.addSpectatorSequence(1);
                 level.playSound(null,pPlayer.getOnPos(), SoundEvents.PORTAL_AMBIENT, SoundSource.PLAYERS,0.5f,level.random.nextFloat() * 0.1F + 0.9F);
                 pPlayer.sendSystemMessage(Component.literal("You have advanced to a Visionary").withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD));
-                pPlayer.addEffect(new MobEffectInstance(ModEffects.ADVANCEMENT1.get(),1,1));
+                pPlayer.addEffect(new MobEffectInstance(ModEffects.ADVANCEMENT0.get(),1,1));
                 pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(350.0);
                 if (!pPlayer.getAbilities().instabuild) {
-                    itemStack.shrink(1);}};});
+                    itemStack.shrink(1);}}});
         return super.use(level,pPlayer,hand);}}

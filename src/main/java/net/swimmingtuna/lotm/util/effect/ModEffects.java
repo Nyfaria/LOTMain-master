@@ -29,8 +29,10 @@ public class ModEffects {
             () -> new AdvancementEffect2(MobEffectCategory.HARMFUL,3124687));
     public static final RegistryObject<MobEffect> ADVANCEMENT1 = MOB_EFFECTS.register("advancementeffect1",
             () -> new AdvancementEffect1(MobEffectCategory.HARMFUL,3124687));
-    public static final RegistryObject<MobEffect> ADVANCEMENT0 = MOB_EFFECTS.register("advancementeffect",
+    public static final RegistryObject<MobEffect> ADVANCEMENT0 = MOB_EFFECTS.register("advancementeffect0",
             () -> new AdvancementEffect0(MobEffectCategory.HARMFUL,3124687));
+    public static final RegistryObject<MobEffect> AWE = MOB_EFFECTS.register("awe",
+            () -> new AweEffect(MobEffectCategory.HARMFUL,3124687));
 
 
     public static void register(IEventBus eventBus) {

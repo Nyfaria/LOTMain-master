@@ -17,7 +17,7 @@ public class AttributeAdder {
         addToPlayer(event,
                 ModAttributes.SPIRITUALITY,
                 ModAttributes.MAX_SPIRITUALITY,
-                ModAttributes.INTELLIGENCE,
+                ModAttributes.SOUL_BODY,
                 ModAttributes.SPIRITUALITY_REGEN);
     }
 

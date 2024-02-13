@@ -52,13 +52,11 @@ public class MindReading extends Item implements ReachChangeUUIDs {
     public InteractionResult interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pInteractionTarget, InteractionHand pUsedHand) {
         AttributeInstance spiritualityInstance = pPlayer.getAttribute(ModAttributes.SPIRITUALITY.get());
         double spirituality = spiritualityInstance.getBaseValue();
+        Player targetPlayer = (Player) pInteractionTarget;
         pPlayer.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence ->  {
-                if (spectatorSequence.getSpectatorSequence() >= 1 && !pInteractionTarget.level().isClientSide)
-                    pPlayer.sendSystemMessage(Component.literal("Cannot use Mind Reading on a non-player entity" ));
-        pPlayer.sendSystemMessage(Component.literal("Current Spirituality is" + spirituality));});
+            if (spectatorSequence.getSpectatorSequence() >= 1 && !pInteractionTarget.level().isClientSide && pInteractionTarget instanceof Player)
+                pPlayer.sendSystemMessage((Component.literal(String.valueOf(((Player) pInteractionTarget).getInventory().items))));});
                     return InteractionResult.PASS;
-
     }
-    
 }
 

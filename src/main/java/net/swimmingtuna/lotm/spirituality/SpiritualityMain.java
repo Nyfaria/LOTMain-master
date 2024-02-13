@@ -21,7 +21,7 @@ public class SpiritualityMain {
         }
     double maxSpirituality = maxSpiritualityInstance.getValue();
     double spirituality = spiritualityInstance.getBaseValue();
-    double intel = player.getAttributeValue(ModAttributes.INTELLIGENCE.get());
+    double intel = player.getAttributeValue(ModAttributes.MAX_SPIRITUALITY.get());
     double curSpiritualityRegen = player.getAttributeValue(ModAttributes.SPIRITUALITY_REGEN.get());
     double spiritualityRegen = maxSpirituality / 500 * (1 + curSpiritualityRegen / 100);
     CompoundTag tag = player.getPersistentData();
@@ -29,7 +29,7 @@ public class SpiritualityMain {
         if (spirituality > maxSpirituality) {
             spirituality = maxSpirituality;
         }
-        maxSpirituality = 100 + intel;
+        maxSpirituality = intel;
 
         spiritualityInstance.setBaseValue(spirituality);
         maxSpiritualityInstance.setBaseValue(maxSpirituality);
