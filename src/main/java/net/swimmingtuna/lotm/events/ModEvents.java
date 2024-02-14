@@ -73,7 +73,6 @@ public class ModEvents {
     }
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-
         if(event.side == LogicalSide.SERVER) {
             if (event.player.getRandom().nextFloat() < 0.04f)
                 ModGameLogic.addSpirituality(event.player);
@@ -82,27 +81,5 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
-    }
-
-    private static boolean hasSolidBlocksAround(ServerPlayer player, ServerLevel level) {
-        return level.getBlockStates(player.getBoundingBox().inflate(1))
-                .filter(blockState ->
-                                !blockState.is(Blocks.WATER) ||
-                                !blockState.is(Blocks.LAVA) ||
-                                        !blockState.is(Blocks.AIR) ||
-                                        !blockState.is(Blocks.CAVE_AIR) ||
-                                        !blockState.is(Blocks.VOID_AIR) ||
-                                        !blockState.is(Blocks.TORCH)
-                                        || !blockState.is(Blocks.SOUL_TORCH)
-                                        || !blockState.is(Blocks.REDSTONE_TORCH)
-                                        || !blockState.is(Blocks.RAIL)
-                                        || !blockState.is(Blocks.ACTIVATOR_RAIL)
-                                        || !blockState.is(Blocks.DETECTOR_RAIL)
-                                        || !blockState.is(Blocks.POWERED_RAIL)
-                                        || !blockState.is(Blocks.TRIPWIRE)
-                                        || !blockState.is(Blocks.TRIPWIRE_HOOK)
-                                        || !blockState.is(Blocks.REPEATER)
-                                        || !blockState.is(Blocks.COMPARATOR)
-                                        || !blockState.is(Blocks.LIGHTNING_ROD)).toArray().length > 0;
     }
 }
