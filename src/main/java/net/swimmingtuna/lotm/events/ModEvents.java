@@ -1,5 +1,6 @@
 package net.swimmingtuna.lotm.events;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -7,6 +8,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,6 +26,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.swimmingtuna.lotm.LOTM;
 import net.swimmingtuna.lotm.beyonder.SpectatorSequence;
 import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
+import net.swimmingtuna.lotm.spirituality.ModAttributes;
 import net.swimmingtuna.lotm.spirituality.ModGameLogic;
 
 import java.util.function.Supplier;
@@ -39,11 +44,22 @@ public class ModEvents {
         }
     }
 }
-
-
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
-        if(event.isWasDeath()) {
+        if (event.isWasDeath()) {
+            Player oldPlayer = event.getOriginal();
+            Player newPlayer = event.getEntity();
+            AttributeInstance oldAttribute = oldPlayer.getAttribute(ModAttributes.MAX_SPIRITUALITY.get());
+            AttributeInstance newAttribute = newPlayer.getAttribute(ModAttributes.MAX_SPIRITUALITY.get());
+            AttributeInstance oldAttribute1 = oldPlayer.getAttribute(ModAttributes.SPIRITUALITY_REGEN.get());
+            AttributeInstance newAttribute1 = newPlayer.getAttribute(ModAttributes.SPIRITUALITY_REGEN.get());
+            AttributeInstance oldAttribute2 = oldPlayer.getAttribute(ModAttributes.SOUL_BODY.get());
+            AttributeInstance newAttribute2 = newPlayer.getAttribute(ModAttributes.SOUL_BODY.get());
+            if (oldAttribute != null && newAttribute != null && oldAttribute1 != null && newAttribute1 != null && oldAttribute2 != null && newAttribute2 != null)
+                newAttribute.setBaseValue(oldAttribute.getBaseValue());
+                newAttribute1.setBaseValue(oldAttribute1.getBaseValue());
+                newAttribute2.setBaseValue(oldAttribute2.getBaseValue());
+
             event.getOriginal().getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(oldStore -> {
                 event.getOriginal().getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(newStore -> {
                     newStore.copyFrom(oldStore);
@@ -55,12 +71,11 @@ public class ModEvents {
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(SpectatorSequence.class);
     }
-
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
 
         if(event.side == LogicalSide.SERVER) {
-            if (event.player.getRandom().nextFloat() < 0.005f)
+            if (event.player.getRandom().nextFloat() < 0.04f)
                 ModGameLogic.addSpirituality(event.player);
         }
     }

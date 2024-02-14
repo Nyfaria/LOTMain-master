@@ -1,6 +1,7 @@
 package net.swimmingtuna.lotm.events;
 
-import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
@@ -29,6 +30,7 @@ public class ClientEvents {
         if (event.phase == TickEvent.Phase.START && event.player != null) {
             event.player.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence -> {
                 if (spectatorSequence.getSpectatorSequence() >= 1) {
+                    event.player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,20,1));
                     if (event.player.isCrouching()) {
                         int currentTimer = crouchTimer.incrementAndGet();
                         if (currentTimer >= CROUCH_DELAY) {
@@ -44,6 +46,5 @@ public class ClientEvents {
             });
         }
     }
-
 }
 

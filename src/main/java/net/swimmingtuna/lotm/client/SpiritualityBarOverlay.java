@@ -81,7 +81,7 @@ public class SpiritualityBarOverlay implements IGuiOverlay {
     }
         public static boolean shouldShowSpiritualityBar(Player pPlayer) {
         var display = ClientConfigs.SPIRITUALITY_BAR_DISPLAY.get();
-        return !pPlayer.isSpectator() && display != Display.Never && (display == Display.Always || pPlayer.getAttributeValue(SPIRITUALITY.get()) < pPlayer.getAttributeValue(MAX_SPIRITUALITY.get()));
+        return !pPlayer.isSpectator() && display != Display.Never && (display == Display.Always || pPlayer.getAttributeValue(SPIRITUALITY.get()) - 1 < pPlayer.getAttributeValue(MAX_SPIRITUALITY.get()));
         }
 
     private static int getBarX(Anchor anchor, int screenWidth) {

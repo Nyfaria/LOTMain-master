@@ -13,11 +13,11 @@ public class ModAttributes {
             DeferredRegister.create(ForgeRegistries.ATTRIBUTES, LOTM.MOD_ID);
 
     public static final RegistryObject<Attribute> MAX_SPIRITUALITY = ATTRIBUTES.register("max_spirituality",
-            ()-> new RangedAttribute("attribute.lotm.spirituality",0.0D,0.0D,10000000).setSyncable(true));
+            ()-> new RangedAttribute("attribute.lotm.spirituality",100.0D,0.0D,10000000).setSyncable(true));
     public static final RegistryObject<Attribute> SPIRITUALITY = ATTRIBUTES.register("spirituality",
             ()-> new RangedAttribute("attribute.lotm.spirituality",100.0D,0.0D,10000000).setSyncable(true));
     public static final RegistryObject<Attribute> SPIRITUALITY_REGEN = ATTRIBUTES.register("spirituality_regen",
-            ()-> new RangedAttribute("attribute.lotm.spirituality",100.0D,0.0D,10000000).setSyncable(true));
+            ()-> new RangedAttribute("attribute.lotm.spirituality",10.0D,0.0D,10000000).setSyncable(true));
     public static final RegistryObject<Attribute> SOUL_BODY = ATTRIBUTES.register("soul_body",
             ()-> new RangedAttribute("attribute.lotm.spirituality",100.0D,0.0D,10000000).setSyncable(true));
 

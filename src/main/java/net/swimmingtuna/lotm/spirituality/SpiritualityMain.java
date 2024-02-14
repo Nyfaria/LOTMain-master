@@ -26,8 +26,12 @@ public class SpiritualityMain {
     double spiritualityRegen = maxSpirituality / 500 * (1 + curSpiritualityRegen / 100);
     CompoundTag tag = player.getPersistentData();
     tag.putDouble("spiritualityRegen", spiritualityRegen);
+
         if (spirituality > maxSpirituality) {
             spirituality = maxSpirituality;
+        }
+        if (spirituality > maxSpirituality) {
+            spirituality += spiritualityRegen;
         }
         maxSpirituality = intel;
 

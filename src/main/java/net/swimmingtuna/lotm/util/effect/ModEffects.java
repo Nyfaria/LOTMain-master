@@ -33,6 +33,9 @@ public class ModEffects {
             () -> new AdvancementEffect0(MobEffectCategory.HARMFUL,3124687));
     public static final RegistryObject<MobEffect> AWE = MOB_EFFECTS.register("awe",
             () -> new AweEffect(MobEffectCategory.HARMFUL,3124687));
+    public static final RegistryObject<MobEffect> FRENZY = MOB_EFFECTS.register("frenzy",
+            () -> new FrenzyEffect(MobEffectCategory.HARMFUL,3124687));
+
 
 
     public static void register(IEventBus eventBus) {

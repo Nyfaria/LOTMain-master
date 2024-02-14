@@ -30,8 +30,12 @@ import java.util.function.Supplier;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(LOTM.MOD_ID)
-public class LOTM
-{
+public class LOTM {
+
+    public static Supplier<Boolean> fadeOut;
+    public static Supplier<Integer> fadeTicks;
+    public static Supplier<Double> maxBrightness;
+    public static Supplier<Double> fadeRate = () -> maxBrightness.get() / fadeTicks.get();
 
     public static ResourceLocation res(String name) {return new ResourceLocation(MOD_ID, name);}
 
@@ -57,7 +61,6 @@ public class LOTM
     private static final Logger LOGGER = LogUtils.getLogger();
     public LOTM()
     {
-
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModItems.register(modEventBus);
