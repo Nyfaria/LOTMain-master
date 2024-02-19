@@ -22,6 +22,8 @@ public class ClientEvents {
 
     private static final AtomicInteger crouchTimer = new AtomicInteger(0);
     private static final int CROUCH_DELAY = 60;
+    private static final AtomicInteger nightVisionTimer = new AtomicInteger(0);
+    private static final int NIGHTVISION_DELAY = 400;
 
 
     @SubscribeEvent
@@ -31,13 +33,16 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START && event.player != null) {
-            event.player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,20,-1));
             event.player.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence -> {
                 if (spectatorSequence.getSpectatorSequence() >= 1) {
+                    int currentNVTimer = nightVisionTimer.incrementAndGet();
+                    if (currentNVTimer >= NIGHTVISION_DELAY) {
+                    nightVisionTimer.set(0);
+                    event.player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,620,-1));}
                     if (event.player.isCrouching()) {
                         int currentTimer = crouchTimer.incrementAndGet();
                         if (currentTimer >= CROUCH_DELAY) {
-                            event.player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY,20,-1));
+                            event.player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY,60,-1));
                             crouchTimer.set(0);
                         }
                     } else {
