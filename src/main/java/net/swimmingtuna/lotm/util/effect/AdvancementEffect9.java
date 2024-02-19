@@ -12,6 +12,7 @@ public class AdvancementEffect9 extends MobEffect {
     public AdvancementEffect9(MobEffectCategory mobEffectCategory, int color) {
         super(mobEffectCategory,color);}
 
+
     @Override
     public void applyEffectTick(LivingEntity pEntity, int pAmplifier) {
         var effect = new MobEffectInstance(MobEffects.BLINDNESS,120,1);

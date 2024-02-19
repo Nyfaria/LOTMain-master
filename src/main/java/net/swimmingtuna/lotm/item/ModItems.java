@@ -7,6 +7,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.swimmingtuna.lotm.LOTM;
+import net.swimmingtuna.lotm.item.custom.BeyonderAbilities.Awe;
+import net.swimmingtuna.lotm.item.custom.BeyonderAbilities.Frenzy;
 import net.swimmingtuna.lotm.item.custom.BeyonderAbilities.MindReading;
 import net.swimmingtuna.lotm.item.custom.BeyonderPotions.*;
 
@@ -17,9 +19,9 @@ public class ModItems {
     public static final RegistryObject<Item> MindReading = ITEMS.register("mindreading",
             ()-> new MindReading(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> Awe = ITEMS.register("awe",
-            ()-> new Item(new Item.Properties().stacksTo(1)));
+            ()-> new Awe(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> Frenzy = ITEMS.register("frenzy",
-            ()-> new Item(new Item.Properties().stacksTo(1)));
+            ()-> new Frenzy(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> Placate = ITEMS.register("placate",
             ()-> new Item(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> BattleHypnotism = ITEMS.register("battlehypnotism",

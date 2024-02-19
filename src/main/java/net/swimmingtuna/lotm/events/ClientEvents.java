@@ -1,5 +1,7 @@
 package net.swimmingtuna.lotm.events;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.api.distmarker.Dist;
@@ -10,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
 import net.swimmingtuna.lotm.client.SpiritualityBarOverlay;
+import net.swimmingtuna.lotm.util.effect.ModEffects;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,23 +31,18 @@ public class ClientEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.START && event.player != null) {
+            event.player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,20,-1));
             event.player.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence -> {
                 if (spectatorSequence.getSpectatorSequence() >= 1) {
-                    event.player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,20,1));
                     if (event.player.isCrouching()) {
                         int currentTimer = crouchTimer.incrementAndGet();
                         if (currentTimer >= CROUCH_DELAY) {
-                            event.player.setInvisible(true);
+                            event.player.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY,20,-1));
                             crouchTimer.set(0);
                         }
                     } else {
-                        // Reset timer and make the player visible if not crouching
                         crouchTimer.set(0);
                         event.player.setInvisible(false);
                     }
                 }
-            });
-        }
-    }
-}
-
+            });}}}

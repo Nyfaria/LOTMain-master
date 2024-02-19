@@ -18,6 +18,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
 import net.swimmingtuna.lotm.events.ReachChangeUUIDs;
 import net.swimmingtuna.lotm.spirituality.ModAttributes;
+import net.swimmingtuna.lotm.spirituality.SpiritualityMain;
 
 public class MindReading extends Item implements ReachChangeUUIDs {
 
@@ -38,6 +39,8 @@ public class MindReading extends Item implements ReachChangeUUIDs {
 
     private Multimap<Attribute, AttributeModifier> createAttributeMap() {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = ImmutableMultimap.builder();
+
+        //reach should be___
         attributeBuilder.putAll(super.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND));
         attributeBuilder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BeyonderEntityReach, "Reach modifier", 12, AttributeModifier.Operation.ADDITION)); //adds a 12 block reach for interacting with entities
         attributeBuilder.put(ForgeMod.BLOCK_REACH.get(), new AttributeModifier(BeyonderBlockReach, "Reach modifier", 12, AttributeModifier.Operation.ADDITION)); //adds a 12 block reach for interacting with blocks, p much useless for this item
@@ -50,12 +53,13 @@ public class MindReading extends Item implements ReachChangeUUIDs {
     }
 
     public InteractionResult interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pInteractionTarget, InteractionHand pUsedHand) {
-        AttributeInstance spiritualityInstance = pPlayer.getAttribute(ModAttributes.SPIRITUALITY.get());
-        double spirituality = spiritualityInstance.getBaseValue();
-        Player targetPlayer = (Player) pInteractionTarget;
         pPlayer.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence ->  {
-            if (spectatorSequence.getSpectatorSequence() >= 1 && !pInteractionTarget.level().isClientSide && pInteractionTarget instanceof Player)
-                pPlayer.sendSystemMessage((Component.literal(String.valueOf(((Player) pInteractionTarget).getInventory().items))));});
+            if (spectatorSequence.getSpectatorSequence() >= 1 && !pInteractionTarget.level().isClientSide && pInteractionTarget instanceof Player) {
+            pPlayer.sendSystemMessage((Component.literal(String.valueOf(((Player) pInteractionTarget).getInventory().items))));}});
+            if (pPlayer.getAbilities().instabuild) {
+                pPlayer.getCooldowns().addCooldown(this,60);
+                SpiritualityMain.consumeSpirituality(pPlayer,20);
+            }
                     return InteractionResult.PASS;
     }
 }
