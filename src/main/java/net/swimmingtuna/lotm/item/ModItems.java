@@ -10,6 +10,7 @@ import net.swimmingtuna.lotm.LOTM;
 import net.swimmingtuna.lotm.item.custom.BeyonderAbilities.Awe;
 import net.swimmingtuna.lotm.item.custom.BeyonderAbilities.Frenzy;
 import net.swimmingtuna.lotm.item.custom.BeyonderAbilities.MindReading;
+import net.swimmingtuna.lotm.item.custom.BeyonderAbilities.Placate;
 import net.swimmingtuna.lotm.item.custom.BeyonderPotions.*;
 
 public class ModItems {
@@ -23,7 +24,7 @@ public class ModItems {
     public static final RegistryObject<Item> Frenzy = ITEMS.register("frenzy",
             ()-> new Frenzy(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> Placate = ITEMS.register("placate",
-            ()-> new Item(new Item.Properties().stacksTo(1)));
+            ()-> new Placate(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> BattleHypnotism = ITEMS.register("battlehypnotism",
             ()-> new Item(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> PsychologicalInvisibility = ITEMS.register("psychologicalinvisibility",

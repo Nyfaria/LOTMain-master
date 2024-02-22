@@ -14,9 +14,9 @@ public class ModGameLogic {
             AttributeInstance spiritualityAttribute = ((Player) pEntity).getAttribute(ModAttributes.SPIRITUALITY.get());
             pEntity.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence -> {
                 if (spiritualityAttribute != null && spectatorSequence.getSpectatorSequence() >= 1) {
-                    double spirititualityRegen = (int) ((Player) pEntity).getAttributeValue(SPIRITUALITY_REGEN.get());
+                    double spirititualityRegen = ((Player) pEntity).getAttributeValue(SPIRITUALITY_REGEN.get());
                     double currentSpirituality = spiritualityAttribute.getValue();
-                    double newSpirituality = currentSpirituality + Math.random() * (spirititualityRegen * 1.5);
+                    double newSpirituality = (currentSpirituality + (Math.random() * (spirititualityRegen * 1.5)) / 45);
 
                     spiritualityAttribute.setBaseValue(Math.max(0, newSpirituality));
                 }

@@ -39,8 +39,8 @@ public class Spectator9Potion extends Item{
                 pPlayer.sendSystemMessage(Component.literal("You have advanced to a Spectator").withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD));
                 pPlayer.addEffect(new MobEffectInstance(ModEffects.ADVANCEMENT9.get(),1,1));
                 pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(22.0);
-                pPlayer.getAttribute(maxSpiritualityInstance.getAttribute()).setBaseValue(100);
-                pPlayer.getAttribute(spiritualityRegen.getAttribute()).setBaseValue(2);
+                pPlayer.getAttribute(maxSpiritualityInstance.getAttribute()).setBaseValue(125);
+                pPlayer.getAttribute(spiritualityRegen.getAttribute()).setBaseValue(2.35);
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);}};});
         return super.use(level,pPlayer,hand);}}

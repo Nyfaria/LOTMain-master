@@ -2,6 +2,7 @@ package net.swimmingtuna.lotm.item.custom.BeyonderAbilities;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -13,12 +14,18 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.LazyOptional;
 import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
 import net.swimmingtuna.lotm.events.ReachChangeUUIDs;
 import net.swimmingtuna.lotm.spirituality.ModAttributes;
 import net.swimmingtuna.lotm.spirituality.SpiritualityMain;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MindReading extends Item implements ReachChangeUUIDs {
 
@@ -61,6 +68,15 @@ public class MindReading extends Item implements ReachChangeUUIDs {
                 SpiritualityMain.consumeSpirituality(pPlayer,20);
             }
                     return InteractionResult.PASS;
+    }
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level level, List<Component> componentList, TooltipFlag tooltipFlag) {
+        if (!Screen.hasShiftDown()) {
+            componentList.add(Component.literal("Upon use, tells you the inventory of the target player\n" +
+                    "Spirituality Used: 20\n" +
+                    "Cooldown: 3 seconds"));
+        }
+        super.appendHoverText(pStack, level, componentList, tooltipFlag);
     }
 }
 

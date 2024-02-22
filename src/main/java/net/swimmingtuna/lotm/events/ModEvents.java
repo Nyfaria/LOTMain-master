@@ -7,6 +7,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -29,6 +32,7 @@ import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
 import net.swimmingtuna.lotm.spirituality.ModAttributes;
 import net.swimmingtuna.lotm.spirituality.ModGameLogic;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 import static java.util.Locale.filter;
@@ -71,10 +75,13 @@ public class ModEvents {
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(SpectatorSequence.class);
     }
+    private static final AtomicInteger spiritualityTimer = new AtomicInteger(0);
+    private static final int SPIRITUALITY_DELAY = 1;
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if(event.side == LogicalSide.SERVER) {
-            if (event.player.getRandom().nextFloat() < 0.04f)
+            int addSpiritualityTimer = spiritualityTimer.incrementAndGet();
+            if (addSpiritualityTimer >= SPIRITUALITY_DELAY)
                 ModGameLogic.addSpirituality(event.player);
         }
     }

@@ -40,7 +40,7 @@ public class Spectator4Potion extends Item{
                 pPlayer.addEffect(new MobEffectInstance(ModEffects.ADVANCEMENT4.get(),1,1));
                 pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(96.0);
                 pPlayer.getAttribute(maxSpiritualityInstance.getAttribute()).setBaseValue(1200);
-                pPlayer.getAttribute(spiritualityRegen.getAttribute()).setBaseValue(12);
+                pPlayer.getAttribute(spiritualityRegen.getAttribute()).setBaseValue(10);
                 if (!pPlayer.getAbilities().instabuild) {
                     itemStack.shrink(1);}};});
         return super.use(level,pPlayer,hand);}}

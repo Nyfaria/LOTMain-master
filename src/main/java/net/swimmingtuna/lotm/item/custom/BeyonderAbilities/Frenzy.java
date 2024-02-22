@@ -3,6 +3,7 @@ package net.swimmingtuna.lotm.item.custom.BeyonderAbilities;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -13,6 +14,8 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -22,6 +25,10 @@ import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
 import net.swimmingtuna.lotm.events.ReachChangeUUIDs;
 import net.swimmingtuna.lotm.spirituality.SpiritualityMain;
 import net.swimmingtuna.lotm.util.effect.ModEffects;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class Frenzy extends Item implements ReachChangeUUIDs {
 
@@ -76,4 +83,13 @@ public class Frenzy extends Item implements ReachChangeUUIDs {
                 livingEntity.hurt(livingEntity.damageSources().magic(), damage);
             });
     });
-}}
+}
+    @Override
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level level, List<Component> componentList, TooltipFlag tooltipFlag) {
+        if (!Screen.hasShiftDown()) {
+            componentList.add(Component.literal("Upon use, makes all living entities around the targeted block lose control of their movement\n" +
+                    "Spirituality Used: 125\n" +
+                    "Cooldown: 15 seconds"));
+        }
+        super.appendHoverText(pStack, level, componentList, tooltipFlag);
+    }}
