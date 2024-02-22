@@ -29,6 +29,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.swimmingtuna.lotm.LOTM;
 import net.swimmingtuna.lotm.beyonder.SpectatorSequence;
 import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
+import net.swimmingtuna.lotm.beyonder.TyrantSequenceProvider;
 import net.swimmingtuna.lotm.spirituality.ModAttributes;
 import net.swimmingtuna.lotm.spirituality.ModGameLogic;
 
@@ -43,11 +44,13 @@ public class ModEvents {
 
     public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
     if(event.getObject() instanceof Player) {
-        if(!event.getObject().getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).isPresent()) {
+        if (!event.getObject().getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).isPresent()) {
             event.addCapability(new ResourceLocation(LOTM.MOD_ID, "spectatorsequence"), new SpectatorSequenceProvider());
         }
-    }
-}
+        if (!event.getObject().getCapability(TyrantSequenceProvider.TYRANTSEQUENCE).isPresent()) {
+            event.addCapability(new ResourceLocation(LOTM.MOD_ID, "tyrantsequence"), new TyrantSequenceProvider());
+        }
+    }}
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
@@ -69,11 +72,16 @@ public class ModEvents {
                     newStore.copyFrom(oldStore);
                 });
             });
-        }
+            event.getOriginal().getCapability(TyrantSequenceProvider.TYRANTSEQUENCE).ifPresent(oldStore -> {
+                event.getOriginal().getCapability(TyrantSequenceProvider.TYRANTSEQUENCE).ifPresent(newStore -> {
+                    newStore.copyFrom(oldStore);
+                });
+            });}
     }
     @SubscribeEvent
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
         event.register(SpectatorSequence.class);
+        event.register(TyrantSequenceProvider.class);
     }
     private static final AtomicInteger spiritualityTimer = new AtomicInteger(0);
     private static final int SPIRITUALITY_DELAY = 1;
