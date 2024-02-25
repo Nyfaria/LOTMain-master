@@ -27,8 +27,7 @@ public class BeyonderCommand {
                                                 throw ERROR_UNKNOWN_BEYONDER_CLASS.create(context.getInput());
                                             }
                                             BeyonderHolderAttacher.getHolder(context.getSource().getPlayerOrException()).ifPresent(holder -> {
-                                                holder.setCurrentClass(result);
-                                                holder.setCurrentSequence(level);
+                                                holder.setClassAndSequence(result, level);
                                             });
                                             context.getSource().getPlayerOrException().sendSystemMessage(Component.translatable("item.lotm.beholder_potion.alert", result.sequenceNames().get(level)).withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD));
                                             return 1;

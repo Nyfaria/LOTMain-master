@@ -57,11 +57,10 @@ public class MindReading extends Item implements ReachChangeUUIDs {
     }
 
     public InteractionResult interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pInteractionTarget, InteractionHand pUsedHand) {
-        if (!pInteractionTarget.level().isClientSide && pInteractionTarget instanceof Player) {
+        if (!pInteractionTarget.level().isClientSide && pInteractionTarget instanceof Player &&  BeyonderHolderAttacher.getHolderUnwrap(pPlayer).useSpirituality(20)) {
             pPlayer.sendSystemMessage((Component.literal(String.valueOf(((Player) pInteractionTarget).getInventory().items))));
-            if (pPlayer.getAbilities().instabuild) {
+            if (!pPlayer.getAbilities().instabuild) {
                 pPlayer.getCooldowns().addCooldown(this, 60);
-                BeyonderHolderAttacher.getHolderUnwrap(pPlayer).reduceSpirituality(20);
             }
         }
         return InteractionResult.PASS;

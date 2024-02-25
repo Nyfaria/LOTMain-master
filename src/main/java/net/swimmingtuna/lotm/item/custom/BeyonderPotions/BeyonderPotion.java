@@ -42,7 +42,7 @@ public class BeyonderPotion extends Item {
         BeyonderHolder holder = BeyonderHolderAttacher.getHolderUnwrap(pPlayer);
         if (holder == null) return InteractionResultHolder.fail(itemStack);
         if (holder.getCurrentClass()!=null && holder.getCurrentClass() != beyonderClassSupplier.get()) return InteractionResultHolder.fail(itemStack);
-        if (holder.getCurrentSequence() > sequence) return InteractionResultHolder.fail(itemStack);
+        if (holder.getCurrentSequence() < sequence) return InteractionResultHolder.fail(itemStack);
         var effect = new MobEffectInstance(MobEffects.BLINDNESS,effectDurations.get(sequence),1);
         effect.setCurativeItems(List.of());
         var effect1 = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,effectDurations.get(sequence),4);
@@ -57,7 +57,7 @@ public class BeyonderPotion extends Item {
         pPlayer.addEffect(effect3);
         holder.setClassAndSequence(beyonderClassSupplier.get(),sequence);
         level.playSound(null, pPlayer.getOnPos(), SoundEvents.PORTAL_AMBIENT, SoundSource.PLAYERS, 0.5f, level.random.nextFloat() * 0.1F + 0.9F);
-        pPlayer.sendSystemMessage(Component.translatable("item.lotm.beholder_potion.alert", holder.getCurrentClass().sequenceNames().get(holder.getCurrentSequence()-1)).withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD));
+        pPlayer.sendSystemMessage(Component.translatable("item.lotm.beholder_potion.alert", holder.getCurrentClass().sequenceNames().get(holder.getCurrentSequence())).withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD));
         pPlayer.getAttribute(Attributes.MAX_HEALTH).setBaseValue(beyonderClassSupplier.get().maxHealth().get(sequence));
         if (!pPlayer.getAbilities().instabuild) {
             itemStack.shrink(1);

@@ -61,11 +61,10 @@ public class Frenzy extends Item implements ReachChangeUUIDs {
         BlockPos positionClicked = pContext.getClickedPos();
         if (!pContext.getLevel().isClientSide) {
             BeyonderHolderAttacher.getHolder(pPlayer).ifPresent(spectatorSequence -> {
-                if (spectatorSequence.getCurrentSequence() >= 3) {
+                if (spectatorSequence.getCurrentSequence() >= 3 &&  BeyonderHolderAttacher.getHolderUnwrap(pPlayer).useSpirituality(125)) {
                     applyPotionEffectToEntities(pPlayer, level, positionClicked, spectatorSequence.getCurrentSequence());
                     if (!pPlayer.getAbilities().instabuild) {
                         pPlayer.getCooldowns().addCooldown(this, 300);
-                        BeyonderHolderAttacher.getHolderUnwrap(pPlayer).reduceSpirituality(125);
                     }
                 }
             });

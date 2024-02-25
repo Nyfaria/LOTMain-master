@@ -69,7 +69,7 @@ public class ItemInit {
             () -> new Item(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> SPECTATOR_9_POTION = ITEMS.register("spectator_9_potion",
             () -> new BeyonderPotion(new Item.Properties().stacksTo(1), ()->BeyonderClassInit.SPECTATOR.get(),9));
-    public static final RegistryObject<Item> SPECTATOR_8_POTION = ITEMS.register("spectator_10_potion",
+    public static final RegistryObject<Item> SPECTATOR_8_POTION = ITEMS.register("spectator_8_potion",
             () -> new BeyonderPotion(new Item.Properties().stacksTo(1),  ()->BeyonderClassInit.SPECTATOR.get(),8));
     public static final RegistryObject<Item> SPECTATOR_7_POTION = ITEMS.register("spectator_7_potion",
             () -> new BeyonderPotion(new Item.Properties().stacksTo(1),  ()->BeyonderClassInit.SPECTATOR.get(),7));

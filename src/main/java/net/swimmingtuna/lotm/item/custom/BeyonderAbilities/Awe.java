@@ -28,11 +28,10 @@ public class Awe extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player pPlayer, InteractionHand hand) {
         BeyonderHolderAttacher.getHolder(pPlayer).ifPresent(spectatorSequence -> {
-            if (spectatorSequence.getCurrentSequence() >= 3) {
+            if (spectatorSequence.getCurrentSequence() >= 3 && spectatorSequence.useSpirituality(75)) {
                 applyPotionEffectToEntities(pPlayer, spectatorSequence.getCurrentSequence());
                 if (!pPlayer.getAbilities().instabuild)
                     pPlayer.getCooldowns().addCooldown(this, 240);
-                spectatorSequence.reduceSpirituality(75);
             }
         });
         return super.use(level, pPlayer, hand);
