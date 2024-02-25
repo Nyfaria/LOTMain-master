@@ -8,29 +8,16 @@ import org.antlr.v4.runtime.misc.MultiMap;
 
 import java.util.List;
 
-public class BeyonderClass {
-    public BeyonderClass() {
-    }
-    public List<String> sequenceNames() {
-        return List.of("");
-    }
-    public List<Integer> spiritualityLevels() {
-        return List.of(0);
-    }
-    public List<Integer> spiritualityRegen() {
-        return List.of(0);
-    }
-    public List<Double> maxHealth() {
-        return List.of(0.0);
-    }
-    public void tick(Player player, int sequence){
-    }
-    public HashMultimap<Integer,Item> getItems(){
-        return HashMultimap.create();
-    }
-    public SimpleContainer getAbilityItemsContainer(int sequenceLevel) {
+public interface BeyonderClass {
+    List<String> sequenceNames();
+    List<Integer> spiritualityLevels();
+    List<Integer> spiritualityRegen();
+    List<Double> maxHealth();
+    void tick(Player player, int sequence);
+    HashMultimap<Integer,Item> getItems();
+    default SimpleContainer getAbilityItemsContainer(int sequenceLevel) {
         SimpleContainer container = new SimpleContainer(27);
-        for(int i = 0; i <= sequenceLevel; i++) {
+        for(int i = 9; i >= sequenceLevel; i--) {
             getItems().get(i).stream().map(Item::getDefaultInstance).forEach(
                     container::addItem
             );

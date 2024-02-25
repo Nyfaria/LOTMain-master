@@ -10,7 +10,7 @@ import net.swimmingtuna.lotm.init.ItemInit;
 
 import java.util.List;
 
-public class SpectatorClass extends BeyonderClass {
+public class SpectatorClass implements BeyonderClass {
     @Override
     public List<String> sequenceNames() {
         return List.of(

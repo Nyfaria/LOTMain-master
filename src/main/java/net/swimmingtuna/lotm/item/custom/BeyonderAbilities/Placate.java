@@ -25,15 +25,14 @@ public class Placate extends Item {
 
     public InteractionResult interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pInteractionTarget, InteractionHand pUsedHand) {
         BeyonderHolderAttacher.getHolder(pPlayer).ifPresent(spectatorSequence -> {
-            if (spectatorSequence.getCurrentSequence() >= 4) {
+            if (spectatorSequence.getCurrentSequence() >= 4 && spectatorSequence.useSpirituality(50)) {
                 removeHarmfulEffects(pInteractionTarget);
             }
-            if (spectatorSequence.getCurrentSequence() > 7 && spectatorSequence.getCurrentSequence() < 4){
+            if (spectatorSequence.getCurrentSequence() > 7 && spectatorSequence.getCurrentSequence() < 4 && spectatorSequence.useSpirituality(50)){
                 halfHarmfulEffects(pInteractionTarget);
             }
             if (!pPlayer.getAbilities().instabuild) {
                 pPlayer.getCooldowns().addCooldown(this, 120);
-                spectatorSequence.reduceSpirituality(50);
             }
         });
         return InteractionResult.SUCCESS;
