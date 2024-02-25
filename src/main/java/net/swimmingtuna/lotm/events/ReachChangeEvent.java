@@ -8,7 +8,6 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import javax.swing.text.html.parser.Entity;
-
 import java.util.UUID;
 
 import static net.swimmingtuna.lotm.events.ReachChangeUUIDs.BeyonderEntityReach;

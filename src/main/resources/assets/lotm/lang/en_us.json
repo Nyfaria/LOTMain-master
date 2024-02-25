@@ -54,5 +54,10 @@
   "attribute.lotm.spirituality": "Spirituality",
   "attribute.lotm.max_spirituality": "Max Spirituality",
   "attribute.lotm.spirituality_regen": "Spirituality Regen",
-  "attribute.lotm.soul_body": "Soul Body"
+  "attribute.lotm.soul_body": "Soul Body",
+  "item.lotm.beholder_potion.alert": "You have advanced to a %s",
+  "argument.lotm.beyonder_class.id.invalid": "Unknown Beyonder Class type '%s'",
+  "container.lotm.abilities": "Abilities",
+
+  "lotm.beyonder.spectator9": "Spectator"
 }

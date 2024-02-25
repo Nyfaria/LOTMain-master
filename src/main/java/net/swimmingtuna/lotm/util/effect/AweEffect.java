@@ -1,14 +1,8 @@
 package net.swimmingtuna.lotm.util.effect;
 
-import net.minecraft.client.MouseHandler;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class AweEffect extends MobEffect {
     public AweEffect(MobEffectCategory mobEffectCategory, int color) {

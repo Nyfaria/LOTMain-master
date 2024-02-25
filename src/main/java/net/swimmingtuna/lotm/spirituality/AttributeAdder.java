@@ -14,11 +14,7 @@ import java.util.function.Supplier;
 public class AttributeAdder {
     @SubscribeEvent
     public static void modifyAttributes(EntityAttributeModificationEvent event) {
-        addToPlayer(event,
-                ModAttributes.SPIRITUALITY,
-                ModAttributes.MAX_SPIRITUALITY,
-                ModAttributes.SOUL_BODY,
-                ModAttributes.SPIRITUALITY_REGEN);
+        addToPlayer(event, ModAttributes.SOUL_BODY);
     }
 
     @SafeVarargs

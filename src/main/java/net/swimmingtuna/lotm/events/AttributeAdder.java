@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public class AttributeAdder {
     @SubscribeEvent
     public static void modifyAttributes(EntityAttributeModificationEvent event) {
-        addToPlayer(event, ModAttributes.SPIRITUALITY);
+
     }
     @SafeVarargs
     private static void addToPlayer(EntityAttributeModificationEvent event, Supplier<Attribute>...attributes) {
