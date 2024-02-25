@@ -9,7 +9,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -18,10 +17,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.LazyOptional;
-import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
+import net.swimmingtuna.lotm.caps.BeyonderHolderAttacher;
 import net.swimmingtuna.lotm.events.ReachChangeUUIDs;
-import net.swimmingtuna.lotm.spirituality.ModAttributes;
-import net.swimmingtuna.lotm.spirituality.SpiritualityMain;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -60,15 +57,16 @@ public class MindReading extends Item implements ReachChangeUUIDs {
     }
 
     public InteractionResult interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pInteractionTarget, InteractionHand pUsedHand) {
-        pPlayer.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence ->  {
-            if (spectatorSequence.getSpectatorSequence() >= 1 && !pInteractionTarget.level().isClientSide && pInteractionTarget instanceof Player) {
-            pPlayer.sendSystemMessage((Component.literal(String.valueOf(((Player) pInteractionTarget).getInventory().items))));}});
+        if (!pInteractionTarget.level().isClientSide && pInteractionTarget instanceof Player) {
+            pPlayer.sendSystemMessage((Component.literal(String.valueOf(((Player) pInteractionTarget).getInventory().items))));
             if (pPlayer.getAbilities().instabuild) {
-                pPlayer.getCooldowns().addCooldown(this,60);
-                SpiritualityMain.consumeSpirituality(pPlayer,20);
+                pPlayer.getCooldowns().addCooldown(this, 60);
+                BeyonderHolderAttacher.getHolderUnwrap(pPlayer).reduceSpirituality(20);
             }
-                    return InteractionResult.PASS;
+        }
+        return InteractionResult.PASS;
     }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level level, List<Component> componentList, TooltipFlag tooltipFlag) {
         if (!Screen.hasShiftDown()) {

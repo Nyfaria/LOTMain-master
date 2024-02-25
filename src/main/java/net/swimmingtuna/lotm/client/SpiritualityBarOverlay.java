@@ -10,8 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.swimmingtuna.lotm.LOTM;
-import static net.swimmingtuna.lotm.spirituality.ModAttributes.MAX_SPIRITUALITY;
-import static net.swimmingtuna.lotm.spirituality.ModAttributes.SPIRITUALITY;
+import net.swimmingtuna.lotm.caps.BeyonderHolder;
+import net.swimmingtuna.lotm.caps.BeyonderHolderAttacher;
 
 public class SpiritualityBarOverlay implements IGuiOverlay {
     public static final SpiritualityBarOverlay instance = new SpiritualityBarOverlay();
@@ -47,9 +47,11 @@ public class SpiritualityBarOverlay implements IGuiOverlay {
 
         if (!shouldShowSpiritualityBar(player))
             return;
-
-        int maxSpirituality = (int) player.getAttributeValue(MAX_SPIRITUALITY.get());
-        int spirituality = (int) player.getAttributeBaseValue(SPIRITUALITY.get());
+        BeyonderHolder holder = BeyonderHolderAttacher.getHolderUnwrap(player);
+        if(holder == null)
+            return;
+        int maxSpirituality = holder.getMaxSpirituality();
+        int spirituality = holder.getSpirituality();
         int barX, barY;
         int configOffsetY = ClientConfigs.SPIRITUALITY_BAR_Y_OFFSET.get();
         int configOffsetX = ClientConfigs.SPIRITUALITY_BAR_X_OFFSET.get();
@@ -81,7 +83,11 @@ public class SpiritualityBarOverlay implements IGuiOverlay {
     }
         public static boolean shouldShowSpiritualityBar(Player pPlayer) {
         var display = ClientConfigs.SPIRITUALITY_BAR_DISPLAY.get();
-        return !pPlayer.isSpectator() && display != Display.Never && (display == Display.Always || pPlayer.getAttributeValue(SPIRITUALITY.get()) - 1 < pPlayer.getAttributeValue(MAX_SPIRITUALITY.get()));
+        BeyonderHolder holder = BeyonderHolderAttacher.getHolderUnwrap(pPlayer);
+        if(holder == null)
+            return false;
+
+        return !pPlayer.isSpectator() && display != Display.Never && (display == Display.Always || holder.getSpirituality() - 1 < holder.getMaxSpirituality());
         }
 
     private static int getBarX(Anchor anchor, int screenWidth) {

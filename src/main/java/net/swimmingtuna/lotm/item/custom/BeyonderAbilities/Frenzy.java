@@ -2,7 +2,6 @@ package net.swimmingtuna.lotm.item.custom.BeyonderAbilities;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,9 +20,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.util.LazyOptional;
-import net.swimmingtuna.lotm.beyonder.SpectatorSequenceProvider;
+import net.swimmingtuna.lotm.caps.BeyonderHolderAttacher;
 import net.swimmingtuna.lotm.events.ReachChangeUUIDs;
-import net.swimmingtuna.lotm.spirituality.SpiritualityMain;
 import net.swimmingtuna.lotm.util.effect.ModEffects;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +43,7 @@ public class Frenzy extends Item implements ReachChangeUUIDs {
         }
         return super.getDefaultAttributeModifiers(pSlot);
     }
+
     private Multimap<Attribute, AttributeModifier> createAttributeMap() {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> attributeBuilder = ImmutableMultimap.builder();
         attributeBuilder.putAll(super.getDefaultAttributeModifiers(EquipmentSlot.MAINHAND));
@@ -57,33 +56,34 @@ public class Frenzy extends Item implements ReachChangeUUIDs {
 
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
-            Player pPlayer = pContext.getPlayer();
-            Level level = pPlayer.level();
-            BlockPos positionClicked = pContext.getClickedPos();
-            if (!pContext.getLevel().isClientSide) {
-                pPlayer.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence -> {
-                if (spectatorSequence.getSpectatorSequence() >= 3) {
-                    applyPotionEffectToEntities(pPlayer,level,positionClicked);
+        Player pPlayer = pContext.getPlayer();
+        Level level = pPlayer.level();
+        BlockPos positionClicked = pContext.getClickedPos();
+        if (!pContext.getLevel().isClientSide) {
+            BeyonderHolderAttacher.getHolder(pPlayer).ifPresent(spectatorSequence -> {
+                if (spectatorSequence.getCurrentSequence() >= 3) {
+                    applyPotionEffectToEntities(pPlayer, level, positionClicked, spectatorSequence.getCurrentSequence());
                     if (!pPlayer.getAbilities().instabuild) {
-                        pPlayer.getCooldowns().addCooldown(this,300);
-                        SpiritualityMain.consumeSpirituality(pPlayer,125);
+                        pPlayer.getCooldowns().addCooldown(this, 300);
+                        BeyonderHolderAttacher.getHolderUnwrap(pPlayer).reduceSpirituality(125);
                     }
                 }
-            });}
-            return InteractionResult.SUCCESS;
-    }
-    private void applyPotionEffectToEntities(Player pPlayer, Level level, BlockPos targetPos) {
-        pPlayer.getCapability(SpectatorSequenceProvider.SPECTATORSEQUENCE).ifPresent(spectatorSequence ->  {
-            double radius = spectatorSequence.getSpectatorSequence() + 5.0;
-            float damage = (float) ((spectatorSequence.getSpectatorSequence()) + 3);
-            AABB boundingBox = new AABB(targetPos).inflate(radius);
-            level.getEntitiesOfClass(LivingEntity.class, boundingBox, entity -> entity.isAlive()).forEach(livingEntity -> {
-                if (livingEntity != pPlayer)
-                    (livingEntity).addEffect((new MobEffectInstance(ModEffects.FRENZY.get(),100,1)));
-                livingEntity.hurt(livingEntity.damageSources().magic(), damage);
             });
-    });
-}
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    private void applyPotionEffectToEntities(Player pPlayer, Level level, BlockPos targetPos, int sequence) {
+        double radius = sequence + 5.0;
+        float damage = (float) ((sequence) + 3);
+        AABB boundingBox = new AABB(targetPos).inflate(radius);
+        level.getEntitiesOfClass(LivingEntity.class, boundingBox, entity -> entity.isAlive()).forEach(livingEntity -> {
+            if (livingEntity != pPlayer)
+                (livingEntity).addEffect((new MobEffectInstance(ModEffects.FRENZY.get(), 100, 1)));
+            livingEntity.hurt(livingEntity.damageSources().magic(), damage);
+        });
+    }
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level level, List<Component> componentList, TooltipFlag tooltipFlag) {
         if (!Screen.hasShiftDown()) {
@@ -92,4 +92,5 @@ public class Frenzy extends Item implements ReachChangeUUIDs {
                     "Cooldown: 15 seconds"));
         }
         super.appendHoverText(pStack, level, componentList, tooltipFlag);
-    }}
+    }
+}
