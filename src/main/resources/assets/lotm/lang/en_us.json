@@ -24,9 +24,8 @@
   "item.lotm.envisionkingdom": "Envision Kingdom",
   "item.lotm.envisionlocation": "Envision Location",
   "item.lotm.envisionhealth": "Envision Health",
-  "item.lotm.spectator9potion": "Spectator 9 Potion",
-  "item.lotm.spectator8potion": "Spectator 8 Potion",
-
+  "item.lotm.spectator_9_potion": "Spectator 9 Potion",
+  "item.lotm.spectator_8_potion": "Spectator 8 Potion",
   "item.lotm.spectator_7_potion": "Spectator 7 Potion",
   "item.lotm.spectator_6_potion": "Spectator 6 Potion",
   "item.lotm.spectator_5_potion": "Spectator 5 Potion",

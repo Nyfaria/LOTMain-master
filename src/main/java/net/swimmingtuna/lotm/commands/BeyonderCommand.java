@@ -9,6 +9,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.swimmingtuna.lotm.beyonder.api.BeyonderClass;
+import net.swimmingtuna.lotm.caps.BeyonderHolder;
 import net.swimmingtuna.lotm.caps.BeyonderHolderAttacher;
 
 public class BeyonderCommand {
@@ -32,6 +33,13 @@ public class BeyonderCommand {
                                             context.getSource().getPlayerOrException().sendSystemMessage(Component.translatable("item.lotm.beholder_potion.alert", result.sequenceNames().get(level)).withStyle(ChatFormatting.AQUA).withStyle(ChatFormatting.BOLD));
                                             return 1;
                                         })
+                                )
+                        )
+                        .then(Commands.literal("remove").executes(
+                                        context -> {
+                                            BeyonderHolderAttacher.getHolder(context.getSource().getPlayerOrException()).ifPresent(BeyonderHolder::removeClass);
+                                            return 1;
+                                        }
                                 )
                         )
         );
