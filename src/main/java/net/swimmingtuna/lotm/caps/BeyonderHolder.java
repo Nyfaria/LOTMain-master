@@ -6,6 +6,7 @@ import dev._100media.capabilitysyncer.network.SimpleEntityCapabilityStatusPacket
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.TickEvent;
@@ -23,12 +24,14 @@ public class BeyonderHolder extends PlayerCapability {
     public static final int SEQUENCE_MAX = 9;
     private int currentSequence = -1;
     private BeyonderClass currentClass = null;
-    private int spirituality = 100;
-    private int maxSpirituality = 100;
-    private int spiritualityRegen = 1;
+    private double spirituality = 100;
+    private double maxSpirituality = 100;
+    private double spiritualityRegen = 1;
+    private final RandomSource random;
 
     protected BeyonderHolder(Player entity) {
         super(entity);
+        random = RandomSource.create();
     }
 
     public void removeClass() {
@@ -49,7 +52,7 @@ public class BeyonderHolder extends PlayerCapability {
         updateTracking();
     }
 
-    public int getMaxSpirituality() {
+    public double getMaxSpirituality() {
         return maxSpirituality;
     }
 
@@ -58,7 +61,7 @@ public class BeyonderHolder extends PlayerCapability {
         updateTracking();
     }
 
-    public int getSpiritualityRegen() {
+    public double getSpiritualityRegen() {
         return spiritualityRegen;
     }
 
@@ -67,7 +70,7 @@ public class BeyonderHolder extends PlayerCapability {
         updateTracking();
     }
 
-    public int getSpirituality() {
+    public double getSpirituality() {
         return spirituality;
     }
 
@@ -142,8 +145,9 @@ public class BeyonderHolder extends PlayerCapability {
         CompoundTag tag = new CompoundTag();
         tag.putInt("currentSequence", currentSequence);
         tag.putString("currentClass", currentClass == null ? "" : BeyonderClassInit.getRegistry().getKey(currentClass).toString());
-        tag.putInt("spirituality", spirituality);
-        tag.putInt("maxSpirituality", maxSpirituality);
+        tag.putDouble("spirituality", spirituality);
+        tag.putDouble("maxSpirituality", maxSpirituality);
+        tag.putDouble("spiritualityRegen", spiritualityRegen);
         return tag;
     }
 
@@ -154,8 +158,9 @@ public class BeyonderHolder extends PlayerCapability {
         if (!className.isEmpty()) {
             currentClass = BeyonderClassInit.getRegistry().getValue(new ResourceLocation(className));
         }
-        spirituality = nbt.getInt("spirituality");
-        maxSpirituality = nbt.getInt("maxSpirituality");
+        spirituality = nbt.getDouble("spirituality");
+        maxSpirituality = nbt.getDouble("maxSpirituality");
+        spiritualityRegen = nbt.getDouble("spiritualityRegen");
     }
 
     @Override
@@ -171,7 +176,8 @@ public class BeyonderHolder extends PlayerCapability {
     public void regenSpirituality(Entity pEntity) {
         if (pEntity instanceof Player) {
             if (spirituality < maxSpirituality) {
-                spirituality = Mth.clamp(Mth.floor(Math.max((spirituality + (Math.random() * (spiritualityRegen * 1.5)) / 45), maxSpirituality)), 0, maxSpirituality);
+                double increase = (Mth.nextDouble(random,0.1,1.0) * (spiritualityRegen * 1.5f)) / 5;
+                spirituality = Mth.clamp(spirituality + increase,0, maxSpirituality);
                 updateTracking();
             }
         }
